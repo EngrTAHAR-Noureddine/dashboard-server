@@ -1,0 +1,24 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard to visualize the resources",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "TAHAR Noureddine",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "json-2-csv": "^4.1.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonexport": "^3.2.0",
+    "mongoose": "^7.5.1",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
+  }
+}
