@@ -7,7 +7,7 @@ const jsonexport = require('jsonexport');
 
 router.get('/how',(req,res)=>{
     const howMuch = req.query.much.toString();
-    console.log("howMuch : ", howMuch)
+    // console.log("howMuch : ", howMuch)
     if(howMuch === "more"){
         Resource.find().sort({$natural:-1}).limit(100).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
     }else if(howMuch === "less"){
@@ -18,7 +18,7 @@ router.get('/how',(req,res)=>{
 router.get('/all',(req,res)=>{
     const from = parseFloat(req.query.from);
     let to = parseFloat(req.query.to);
-    console.log("from : ", from, " - to : ", to)
+    // console.log("from : ", from, " - to : ", to)
     if (isNaN(from) || isNaN(to)) {
         Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'));
     }else{
@@ -34,7 +34,7 @@ router.get('/all-anomalies',(req,res)=>{
     Resource.find({ IS_ANOMALY: 1 }).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
 });
 router.get('/download-csv',(req,res)=>{
-    console.log("download csv")
+    // console.log("download csv")
     // let resources = []
     Resource.find().then(resource=> {
 
@@ -52,11 +52,11 @@ router.get('/download-csv',(req,res)=>{
                 // Convert JSON to CSV
                 // const csvParser = new json2csv();
                 // const csvData = csvParser.parse(resources);
-                console.log("resources ", transformedJsonData )
+                // console.log("resources ", transformedJsonData )
                 jsonexport(transformedJsonData, function(err, csvData) {
                     if (err) return console.error(err);
 
-                    console.log("csv ", csvData)
+                    // console.log("csv ", csvData)
                     // Define the file name and path
                     const fileName = 'data.csv';
                     const filePath = `${__dirname}/${fileName}`;
@@ -96,7 +96,7 @@ router.get('/download-csv',(req,res)=>{
 
 router.post('/',(req,res)=>{
 
-    console.log("POST")
+    // console.log("POST")
     const newResource = new Resource({
         TIMESTAMP: req.body["TIMESTAMP"],
         CPU_PERCENTAGE: req.body["CPU_PERCENTAGE"],
@@ -110,7 +110,7 @@ router.post('/',(req,res)=>{
 
 router.post('/update-is-anomaly',(req,res)=>{
 
-    console.log("Update Anomaly")
+    // console.log("Update Anomaly")
     Resource.updateOne( { TIMESTAMP: req.body["TIMESTAMP"] },
         {
             $set: {
@@ -122,7 +122,7 @@ router.post('/update-is-anomaly',(req,res)=>{
 });
 
 router.delete('/', (req, res) => {
-    console.log("Delete data")
+    // console.log("Delete data")
     Resource.deleteMany({}).then(r => res.send("OK")).catch(err =>res.send("Error"));
 })
 
