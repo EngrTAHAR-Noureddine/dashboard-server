@@ -5,8 +5,30 @@ const Resource = require('../../models/Resource');
 const fs = require("fs");
 const jsonexport = require('jsonexport');
 
+router.get('/:howMuch',(req,res)=>{
+    const howMuch = req.params.howMuch.toString();
+    if(howMuch === "more"){
+        Resource.find().sort({$natural:-1}).limit(100).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
+    }else if(howMuch === "less"){
+        Resource.find().sort({$natural:-1}).limit(50).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
+    }else{
+        Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
+    }
+    // Resource.find().then(resource=>res.json(resource))
+});
+router.get('/all',(req,res)=>{
+    const from = parseFloat(req.query.from);
+    let to = parseFloat(req.query.to);
+
+    if (isNaN(from) || isNaN(to)) {
+        Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'));
+    }else{
+        Resource.find().skip(from).limit(to).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'));
+    }
+
+});
 router.get('/',(req,res)=>{
-    Resource.find().then(resource=>res.json(resource))
+    Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
 });
 
 router.get('/download-csv',(req,res)=>{
@@ -64,7 +86,7 @@ router.get('/download-csv',(req,res)=>{
                 res.status(500).json({ error: 'Internal server error' });
             }
         }
-    })
+    }).catch(err=>res.status(500).send('Something went wrong!'))
 
 
 
