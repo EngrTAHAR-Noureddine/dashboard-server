@@ -5,21 +5,20 @@ const Resource = require('../../models/Resource');
 const fs = require("fs");
 const jsonexport = require('jsonexport');
 
-router.get('/:howMuch',(req,res)=>{
-    const howMuch = req.params.howMuch.toString();
+router.get('/how',(req,res)=>{
+    const howMuch = req.query.much.toString();
+    console.log("howMuch : ", howMuch)
     if(howMuch === "more"){
         Resource.find().sort({$natural:-1}).limit(100).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
     }else if(howMuch === "less"){
         Resource.find().sort({$natural:-1}).limit(50).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
-    }else{
-        Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
     }
     // Resource.find().then(resource=>res.json(resource))
 });
 router.get('/all',(req,res)=>{
     const from = parseFloat(req.query.from);
     let to = parseFloat(req.query.to);
-
+    console.log("from : ", from, " - to : ", to)
     if (isNaN(from) || isNaN(to)) {
         Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'));
     }else{
