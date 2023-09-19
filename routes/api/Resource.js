@@ -31,6 +31,9 @@ router.get('/',(req,res)=>{
     Resource.find().then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
 });
 
+router.get('/all-anomalies',(req,res)=>{
+    Resource.find({ IS_ANOMALY: 1 }).then(resource=>res.json(resource)).catch(err=>res.status(500).send('Something went wrong!'))
+});
 router.get('/download-csv',(req,res)=>{
     console.log("download csv")
     // let resources = []
